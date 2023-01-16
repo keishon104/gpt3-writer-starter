@@ -1,54 +1,49 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Head from "next/head";
 
-const UploadWidget = () => {
-  const cloudinaryRef = useRef();
-  const widgetRef = useRef();
+const UploadWidget = ({ imageUploadLink }) => {
+  const cloudName = "dgusjlsoo";
+  const uploadPreset = "jpoubnxn";
+
   useEffect(() => {
-    cloudinaryRef.current = window.cloudinary;
-    // console.log(cloudinaryRef.current);
-    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+    const myWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: "dgusjlsoo",
-        uploadPreset: "jpoubnxn",
-        showAdvancedOptions: true,
-        styles: {
-          palette: {
-            window: "#FFF",
-            windowBorder: "#90A0B3",
-            tabIcon: "#0E2F5A",
-            menuIcons: "#5A616A",
-            textDark: "#000000",
-            textLight: "#FFFFFF",
-            link: "#0078FF",
-            action: "#FF620C",
-            inactiveTabIcon: "#0E2F5A",
-            error: "#F44235",
-            inProgress: "#0078FF",
-            complete: "#20B832",
-            sourceBg: "#E4EBF1",
-          },
-          frame: {
-            background: "#0E2F5B99",
-          },
-          fonts: {
-            "'Cute Font', cursive":
-              "https://fonts.googleapis.com/css?family=Cute+Font",
-          },
-        },
+        cloudName: cloudName,
+        uploadPreset: uploadPreset,
       },
-      function (error, result) {
-        // console.log(result.data.info.files[0]?.uploadInfo.url);
+      (error, result) => {
+        console.log("button pressed!");
+        if (!error && result && result.event === "success") {
+          let link = result.info.secure_url;
+          imageUploadLink(link);
+        }
       }
+    );
+    document.getElementById("upload_widget").addEventListener(
+      "click",
+      function (e) {
+        e.stopPropagation();
+        myWidget.open();
+      },
+      false
     );
   }, []);
   return (
-    <button
-      type="button"
-      className="inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      onClick={() => widgetRef.current.open()}
-    >
-      Upload Image
-    </button>
+    <div>
+      <Head>
+        <script
+          src="https://upload-widget.cloudinary.com/global/all.js"
+          type="text/javascript"
+        ></script>
+      </Head>
+
+      <button
+        id="upload_widget"
+        className="inline-flex items-center rounded-md border border-transparent bg-indigo-300 px-4 py-2 text-sm font-medium text-black-700 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        Upload Image
+      </button>
+    </div>
   );
 };
 
