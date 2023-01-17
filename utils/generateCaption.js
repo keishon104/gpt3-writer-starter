@@ -1,4 +1,5 @@
 const generateCaption = async (body) => {
+  console.log("Input body: ", body);
   const response = await fetch("/api/generate", {
     method: "POST",
     headers: {

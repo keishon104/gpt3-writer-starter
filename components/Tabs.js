@@ -28,7 +28,7 @@ const Tabs = ({ onTextArea, promptText, imageUrl, imageAltText }) => {
     const data = await response.json();
     const { output } = data;
     imageUrl(value);
-    imageUrl, imageAltText(data);
+    imageAltText(data);
   };
 
   const callGenerateEndpoint = async () => {

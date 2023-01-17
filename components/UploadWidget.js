@@ -12,7 +12,6 @@ const UploadWidget = ({ imageUploadLink }) => {
         uploadPreset: uploadPreset,
       },
       (error, result) => {
-        console.log("button pressed!");
         if (!error && result && result.event === "success") {
           let link = result.info.secure_url;
           imageUploadLink(link);

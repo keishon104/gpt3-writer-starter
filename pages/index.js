@@ -21,6 +21,7 @@ export default function Home() {
   const [promptInput, setPromptInput] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [imageDescriptionText, setImageDescriptonText] = useState("");
 
   const callReGenerateEndpoint = async () => {
     setIsGenerating(true);
@@ -60,12 +61,13 @@ export default function Home() {
 
   const imageUploadCaptionGenerate = async (imageDescription) => {
     // console.log("Description of image recieved from child: ", imageDescription);
+    setImageDescriptonText(imageDescription);
 
-    setIsGenerating(true);
+    // setIsGenerating(true);
     generateCaption(imageDescription).then((result) =>
       setApiChildOutput(result)
     );
-    setIsGenerating(false);
+    // setIsGenerating(false);
   };
   return (
     <div className="bg-white">
@@ -172,6 +174,7 @@ export default function Home() {
                   apiOutput={apiChildOutput}
                   promptInput={promptInput}
                   imageURL={imageURL}
+                  imageDescription={imageDescriptionText}
                 />
               ) : (
                 <div className="">
